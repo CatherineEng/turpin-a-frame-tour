@@ -1,0 +1,754 @@
+<!doctype html>
+<html>
+  <head>
+	<meta charset="utf-8" />
+	<title>Turpin – A-Frame</title>
+	<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+	<script src="audio-toggle.js"></script>
+	<script src="audio-toggle-button.js"></script>	
+	<script src="https://unpkg.com/aframe-environment-component@1.3.4/dist/aframe-environment-component.min.js"></script>
+
+	<style>
+	  #loadingOverlay{
+		position: fixed; inset: 0;
+		display: flex; flex-direction: column; gap: 16px;
+		align-items: center; justify-content: center;
+		background: #000; color: #fff;
+		z-index: 9999;
+		font: 18px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+	
+		opacity: 1;
+		transition: opacity 500ms ease;
+	  }
+	  #loadingOverlay.hidden {
+		opacity: 0;
+		pointer-events: none;
+	  }
+	  #enterBtn{
+		padding: 12px 18px;
+		border-radius: 10px;
+		border: 1px solid rgba(255,255,255,0.35);
+		background: rgba(255,255,255,0.1);
+		color: #fff;
+		cursor: pointer;
+		font-size: 16px;
+	  }
+	  #progressText{ opacity: 0.85; }
+	</style>
+  </head>
+  <body style="margin:0; overflow:hidden;background-color:black;">
+	
+	<div id="loadingOverlay">
+	  <div id="progressText">Loading… 0%</div>
+	  <button id="enterBtn" disabled>Enter</button>
+	  <div style="opacity:.7; font-size:14px;">Audio will start after you click Enter.</div>
+	</div>
+	
+	
+	<a-scene xr-mode-ui="enabled: true" fog="type: exponential; color: #9fc9e8; density: 0.003">
+	  <!--a-entity camera position="0 2.6 0" look-controls wasd-controls></a-entity-->
+
+	  
+<!-----------------AUDIO FILES------------------------>
+		<a-assets>
+	      <a-asset-item id="villageGLB" src="exhibits/landscape/scene.glb"></a-asset-item>		
+		  <img id="playArrow" src="media/play.png" />
+		  <img id="stopIcon" src="media/pause.png" />
+		  <img id="wall2graphic" src="media/9517cbbb-1ba0-4417-96a3-c7976cd19c45.jpg" />
+		  <img id="station2graphic" src="media/1e464c73-30e3-49ac-9521-5b39fac76948.png" />
+		  <img id="station3graphic" src="media/382b28d1-f9e3-44ec-bbbe-095b5ccabfa0.jpg" />
+		  <img id="wall5graphic1" src="media/bc295f8f-f92a-4164-8b01-a2dcd021eb7d.png" />
+		  <img id="wall5graphic2" src="media/abaac413-862f-4e42-835c-e5c7f0eb3707.png" />
+		  <img id="station5agraphic" src="media/382b28d1-f9e3-44ec-bbbe-095b5ccabfa0.jpg" />
+		  <img id="station5bgraphic" src="media/382b28d1-f9e3-44ec-bbbe-095b5ccabfa0.jpg" />
+		  <img id="wall8graphic1" src="media/87241afe-b484-4ab0-84fd-7e8a9a8c5ce4.png" />
+  		  <img id="wall8graphic2" src="media/0438139f-763a-4d8e-87f0-bf4f49c58272.png" />
+		  <img id="wall12graphic" src="media/685213e7-b5b9-4a74-83bb-6afafb75e851.png" />
+		  
+		  <audio id="welcome1" src="narration/c3198a08-4f3d-4bf2-93e7-19dcabb3905b.mp3"></audio>
+		  <audio id="audio2" src="narration/0ebbdc08-6e01-428f-8ba5-f1b21318d1ab.mp3"></audio>
+		  <audio id="audio3" src="narration/c5be4af4-c4a7-4414-9a9e-41c8b8f1e9e2.mp3"></audio>
+		  <audio id="audio4" src="narration/8028367e-538f-49a7-95b9-a804c2ad8dd1.mp3"></audio>
+		  <audio id="audio5" src="narration/5a905aeb-d9a0-44bb-82be-1f11c2079d1f.mp3"></audio>
+		  <audio id="audio6" src="narration/8170fdc4-4540-4886-ad2d-86eac62a3f74.mp3"></audio>
+		  <audio id="audio7" src="narration/21c5aaf4-fbf0-4203-b6fd-7b32e298b87b.mp3"></audio>
+		  <audio id="audio8" src="narration/c23d125c-be69-47d3-a175-810735bab158.mp3"></audio>
+		  <audio id="audio9alt" src="narration/c23d125c-be69-47d3-a175-810735bab158.mp3"></audio>
+		  <audio id="audio9" src="narration/c23d125c-be69-47d3-a175-810735bab158.mp3"></audio>
+		  <audio id="audio10" src="narration/628af989-4a99-4bf2-8a56-32a5274ce0f2.mp3"></audio>
+		  <audio id="audio11" src="narration/db4f0a56-4d41-4d65-9527-6c9218958ae1.mp3"></audio>
+	      <audio id="audio12" src="narration/3c9f0014-8ebc-45bf-9fe7-9147ce931179.mp3"></audio>
+
+		</a-assets>
+<!--a-entity environment="preset: forest; groundColor: #665544; skyColor: #88ccee;"></a-entity-->
+
+<a-sky id="sky" color="#9fc9e8"></a-sky>
+
+<!--a-entity environment="
+  preset: forest;
+  skyColor: #9fc9e8;
+  groundColor: #6b5f4b;
+  groundTexture: walkernoise;
+"></a-entity-->
+	  
+<a-entity id="mainVillageModel" gltf-model="#villageGLB"></a-entity>
+
+<!----------------START STATION 1-------------------->
+
+<a-entity id="welcomeWall1" position="6.444 4.595 -126.5" rotation="0 -95 0">
+  <a-entity
+	position="-1.609 -1.115 0.044"
+	text="value: Welcome to an interactive reconstruction of the Turpin archaeology site!;
+		  width: 4.3; color: #fff; align: left; wrapCount: 13; lineHeight: 45;">
+  </a-entity>
+
+  <a-entity
+	position="4.324 -1.433 0.00"
+	  text="value:  Follow the arrowheads on the ground making sure to stop at each numbered signpost. Click on the sound icons on each signpost to learn about the site from many students and staff involved in the project. Start by using your phone to scan this QR code to watch a brief video that summarizes the bigger project entitled “Miami Valley Recollections and Reconnections.”; width: 7.1; color: #fff; align: left; wrapCount: 35; lineHeight: 48;">
+  </a-entity>
+</a-entity>
+
+<a-entity id="loc1" position="4.041 0 -127.2" rotation="0 -90 0">
+  <a-plane id="placard1" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane>
+
+  <a-entity id="label1" position="0 1.21 0.08"
+	text="value: 1; align: center; width: 5; color: #111"></a-entity>
+
+  <a-plane id="audioBtn1" class="clickable"
+	position="0.51 1.2 0.11" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity1; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity1"
+	sound="src: #welcome1; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+</a-entity>
+
+<!----------------END STATION 1-------------------->
+
+<!----------------START STATION 2-------------------->
+
+<a-entity id="Wall2" position="20.346 4.595 -128.12" rotation="2 0 0">
+  <a-entity
+	position="-0.195 0.768 0.044"
+	text="value: Excavations;
+		  width: 6; color: #fff; align: left; wrapCount: 13; lineHeight: 45;">
+  </a-entity>
+
+  <a-entity
+	position="-.848 -.623 0.00"
+	text="value: Turpin has been excavated several times starting in the 1800s. The first excavation was done by Harvard, then the Cincinnati Museum Center, and currently by Ohio State University and the University of Louisville.;
+		  width: 6; color: #fff; align: left; wrapCount: 35; lineHeight: 48;">
+  </a-entity>
+  
+  <a-image
+	  src="#wall2graphic"
+	  width="4.4"
+	  height="2.4"
+	  position="-1.052 -2.963 0.123"
+	  rotation="1 0 0">
+  </a-image>
+
+  <a-image
+		src="#station2graphic"
+		width="2.7"
+		height="2.7"
+		position="7.719 -4.272 2.829"
+		rotation="90 90 0">
+	</a-image>
+  
+</a-entity>
+
+<a-entity id="loc2" position="24.769 .225 -123.489" rotation="0 0 0">
+  <a-plane id="placard2" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane>
+
+  <a-entity id="label2" position="0 1.21 0.08"
+	text="value: 2; align: center; width: 5; color: #111"></a-entity>
+
+  <a-plane id="audioBtn2" class="clickable"
+	position="0.51 1.2 .08" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity2; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity2"
+	sound="src: #audio2; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+  
+</a-entity>
+
+<!----------------END STATION 2-------------------->
+
+<!----------------START STATION 3-------------------->
+
+<a-entity id="loc3" position="40.367 .225 -113.38" rotation="0 177 0">
+  <a-plane id="placard3" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane>
+
+  <a-entity id="label3" position="0 1.21 0.08"
+	text="value: 3; align: center; width: 5; color: #111"></a-entity>
+
+  <a-plane id="audioBtn3" class="clickable"
+	position="0.51 1.2 .08" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity3; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity3"
+	sound="src: #audio3; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+  
+  <a-image
+	  src="#station3graphic"
+	  width="3.6"
+	  height="3.6"
+	  position="-1.1210 -.339 -2.935"
+	  rotation="90 90 0">
+  </a-image>
+    
+</a-entity>
+
+<!----------------END STATION 3-------------------->
+
+<!----------------START STATION 4-------------------->
+
+<a-entity id="loc4" position="55.641 -.071 -115.23" rotation="0 -73.3 0">
+  <a-plane id="placard4" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane>
+
+  <a-entity id="label4" position="0 1.21 0.08"
+	text="value: 4; align: center; width: 5; color: #111"></a-entity>
+
+  <a-plane id="audioBtn4" class="clickable"
+	position="0.51 1.2 .08" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity4; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity4"
+	sound="src: #audio4; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+  	
+</a-entity>
+
+<!----------------END STATION 4-------------------->
+<!----------------START STATION 5-------------------->
+
+<a-entity id="Wall5" position="48.365 3.858 -143.2" rotation="-.1 0 0">
+  <a-entity
+	position="-0.195 0.986 0.036"
+	text="value: Village 1;
+		  width: 6; color: #fff; align: left; wrapCount: 13; lineHeight: 45;">
+  </a-entity>
+
+  <a-entity
+	position="-1.602 -1.231 0.0210"
+	text="value: We know very little about this part of the site but was probably used more intensively by the Late Woodland Culture (AD 400-1000). This culture emphasized hunting and gathering as well as initial domestication of plants like sunflowers and quinoa.;
+		  width: 4.5; color: #fff; align: left; wrapCount: 25; lineHeight: 48;">
+  </a-entity>
+  
+  <a-image
+	  src="#wall5graphic1"
+	  width="4"
+	  height="2"
+	  position="3.071 -0.464 0.036"
+	  rotation="1 0 0">
+  </a-image>
+
+  <a-image
+		src="#wall5graphic2"
+		width="2.4"
+		height="3"
+		position="6.623 -0.450 0.017"
+		rotation="1 0 0">
+	</a-image>
+  
+  <a-entity
+	  position="2.999 -2.077 0.055"
+	  text="value: Late Woodland points;
+			width: 3; color: #fff; align: left; wrapCount: 20; lineHeight: 45;">
+  </a-entity>
+  
+  <a-entity
+		position="6.823 -2.269 0.062"
+		text="value: Late Woodland pottery;
+			  width: 3; color: #fff; align: left; wrapCount: 20; lineHeight: 45;">
+  </a-entity>
+
+  <a-entity
+		  position="2.335 -3.034 3.106"
+		  text="value: N1040 E840;
+				width: 3; color: #fff; align: left; wrapCount: 20; lineHeight: 45;">
+ </a-entity>
+
+
+  
+</a-entity>
+
+<a-entity id="loc5" position="59.859 .174 -128.4" rotation="0 -15 0">
+  <a-plane id="placard5" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane>
+
+  <a-entity id="label5" position="0 1.21 0.08"
+	text="value: 5; align: center; width: 5; color: #111"></a-entity>
+
+  <a-plane id="audioBtn5" class="clickable"
+	position="0.51 1.2 .08" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity5; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity5"
+	sound="src: #audio5; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+  
+</a-entity>
+
+<!----------------END STATION 5-------------------->	
+
+<!----------------START STATION 5a-------------------->
+
+<a-entity id="loc5a" position="69.101 .225 -117.40" rotation="0 45 0">
+  <a-image
+	  src="#station5agraphic"
+	  width="3.6"
+	  height="3.6"
+	  position="-1.1210 -.339 -2.935"
+	  rotation="90 90 0">
+  </a-image>
+	
+</a-entity>
+<!----------------END STATION 5a-------------------->	
+
+<!----------------START STATION 5b-------------------->
+
+<a-entity id="loc5b" position="69.747 .254 -107.68" rotation="0 0 0">
+  <a-image
+	  src="#station5bgraphic"
+	  width="3.6"
+	  height="3.6"
+	  position="-1.1210 -.339 -2.935"
+	  rotation="90 90 0">
+  </a-image>
+	
+</a-entity>
+<!----------------END STATION 5b-------------------->	
+
+<!----------------START STATION 6-------------------->
+
+<a-entity id="loc6" position="82.828 .032 -118.05" rotation="0 2 0" scale=".9 .9 .9">
+  <a-plane id="placard6" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane>
+
+  <a-entity id="label6" position="0 1.21 0.08"
+	text="value: 6; align: center; width: 5; color: #111"></a-entity>
+
+  <a-plane id="audioBtn6" class="clickable"
+	position="0.51 1.2 .08" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity6; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity6"
+	sound="src: #audio6; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+	  
+</a-entity>
+
+<!----------------END STATION 6-------------------->
+
+<!----------------START STATION 7-------------------->
+
+<a-entity id="loc7" position="99.475 .035 -118.518" rotation="0 -86 0" scale=".9 .9 .9">
+  <a-plane id="placard7" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane>
+
+  <a-entity id="label7" position="0 1.21 0.08"
+	text="value: 7; align: center; width: 5; color: #111"></a-entity>
+
+  <a-plane id="audioBtn7" class="clickable"
+	position="0.51 1.2 .08" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity7; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity7"
+	sound="src: #audio7; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+	  
+</a-entity>
+
+<!----------------END STATION 7-------------------->
+
+<!----------------START STATION 8-------------------->
+
+<a-entity id="Wall8" position="103.33 4.211 -134.675" rotation="-2 0 0" scale="0.88 0.88 0.88">
+  <a-entity
+	position="-0.195 0.984 0.095"
+	text="value: Village 2;
+		  width: 6; color: #fff; align: left; wrapCount: 13; lineHeight: 45;">
+  </a-entity>
+
+  <a-entity
+	position="-1.602 -1.677 0.077"
+	text="value: We know a fair amount about this part of the site, which is a small early Fort Ancient village (AD 1000-1300). This culture emphasized corn farming while continuing to hunt and gather. The stone mound you see near here was initially constructed during the earlier Late Woodland time but may have been intentionally integrated into this later village.;
+		  width: 4.5; color: #fff; align: left; wrapCount: 25; lineHeight: 48;">
+  </a-entity>
+  
+  <a-image
+	  src="#wall8graphic1"
+	  width="4"
+	  height="2"
+	  position="2.802 -1.2 0.010"
+	  rotation="1 0 0">
+  </a-image>
+
+  <a-image
+		src="#wall8graphic2"
+		width="2.4"
+		height="3"
+		position="6.623 -1.258 -0.011"
+		rotation="1 0 0">
+	</a-image>
+  
+  <a-entity
+	  position="3.269 -2.576 0.038"
+	  text="value: Fort Ancient points;
+			width: 3; color: #fff; align: left; wrapCount: 20; lineHeight: 45;">
+  </a-entity>
+  
+  <a-entity
+		position="6.686 -3.153 0.031"
+		text="value: Fort Ancient pottery;
+			  width: 3; color: #fff; align: left; wrapCount: 20; lineHeight: 45;">
+  </a-entity>
+
+  
+</a-entity>
+
+<a-entity id="loc8alt" position="124.56 .073 -110.014" rotation="0 -10 0" scale="0.88 0.88 0.88">
+  <!--a-plane id="placard8" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane
+
+  <a-entity id="label8" position="0 1.21 0.08"
+	text="value: ; align: center; width: 5; color: #111"></a-entity-->
+
+  <a-plane id="audioBtn8alt" class="clickable"
+	position="0.51 1.2 .08" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity2; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity8alt"
+	sound="src: #audio8; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+  
+</a-entity>
+
+<!----------------END STATION 8-------------------->	
+
+<!----------------START STATION 9-------------------->
+
+<a-entity id="loc9" position="148.51 0.050 -99.51" rotation="0 181 0" scale=".9 .9 .9">
+  <a-plane id="placard9" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane>
+
+  <a-entity id="label9" position="0 1.21 0.08"
+	text="value: 9; align: center; width: 5; color: #111"></a-entity>
+
+  <a-plane id="audioBtn9" class="clickable"
+	position="0.51 1.2 .08" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity9; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity9"
+	sound="src: #audio9; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+	  
+</a-entity>
+
+<!----------------END STATION 9-------------------->
+
+<!----------------START STATION 10-------------------->
+
+<a-entity id="Wall10" position="185.19 1.447 -134.713" rotation="2 0 0" scale="0.88 0.88 0.88">
+  <a-entity
+	position="-0.392 3.541 -0.021"
+	text="value: Village 3;
+		  width: 4; color: #fff; align: left; wrapCount: 8; lineHeight: 42;">
+  </a-entity>
+
+  <a-entity
+	position="-0.626 1.411 -0.011"
+	text="value: We know a fair amount about this part of the site. It appears to be very similar to Village 2, also being a small early Fort Ancient village (AD 1000-1300) with an emphasis on corn farming.;
+		  width: 10; color: #fff; align: left; wrapCount: 31; lineHeight: 47;">
+  </a-entity>
+  
+</a-entity>
+
+<a-entity id="loc10" position="179.02 0.314 -109.8" rotation="0 0 0" scale=".9 .9 .9">
+  <a-plane id="placard10" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane>
+
+  <a-entity id="label10" position="0 1.21 0.08"
+	text="value: 10; align: center; width: 5; color: #111"></a-entity>
+
+  <a-plane id="audioBtn10" class="clickable"
+	position="0.51 1.2 .08" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity10; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity10"
+	sound="src: #audio10; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+	  
+</a-entity>
+
+<!----------------END STATION 10-------------------->
+
+<!----------------START STATION 11-------------------->
+
+
+<a-entity id="loc11" position="164.17 .028 -114.17" rotation="0 70 0" scale=".9 .9 .9">
+  <a-plane id="placard11" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane>
+
+  <a-entity id="label11" position="0 1.21 0.08"
+	text="value: 11; align: center; width: 5; color: #111"></a-entity>
+
+  <a-plane id="audioBtn11" class="clickable"
+	position="0.51 1.2 .08" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity11; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity11"
+	sound="src: #audio11; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+	  
+</a-entity>
+
+
+<!----------------END STATION 11-------------------->	
+
+<!----------------START STATION 12-------------------->
+
+<a-entity id="Wall12" position="152.33 3.026 -148" rotation="-2 0 0" scale="0.88 0.88 0.88">
+
+  <a-entity
+	position="-1.407 .431 0.151"
+	text="value: Thanks for visiting! Scan this QR code to take a survey over the site.;
+		  width: 4; color: #fff; align: left; wrapCount: 22; lineHeight: 48;">
+  </a-entity>
+  
+  <a-image
+	  src="#wall12graphic"
+	  width="2.75"
+	  height="2.75"
+	  position="-1.735 -1.7 -0.069"
+	  rotation="1 0 0">
+  </a-image>
+  
+  
+</a-entity>
+
+<a-entity id="loc12" position="140.74 .071 -144.4" rotation="0 70 0" scale="0.88 0.88 0.88">
+  <a-plane id="placard11" width="0.4" height="0.4" position="0.01 1.215 0.07"
+	color="#ff5500" class="not-clickable"></a-plane>
+
+  <a-entity id="label11" position="0 1.21 0.08"
+	text="value: 12; align: center; width: 5; color: #111"></a-entity>
+
+  <a-plane id="audioBtn12" class="clickable"
+	position="0.51 1.2 .08" width="0.4" height="0.4"
+	material="shader: flat; src: #playArrow; transparent: true"
+	audio-toggle-button="sound: #audioEntity12; playSrc: #playArrow; stopSrc: #stopIcon">
+  </a-plane>
+
+  <a-entity id="audioEntity12"
+	sound="src: #audio12; positional: true; refDistance: 6; volume: 3;">
+  </a-entity>
+  
+</a-entity>
+
+<!----------------END STATION 12-------------------->	
+
+	  <a-entity id="rig" position="-20 1.5 -120" rotation="0 -90 0">
+		<a-entity id="cam"
+		  camera="active: true"
+		  position="0 1.5 0"
+		  look-controls
+		  wasd-controls>
+		</a-entity>
+	  
+		<a-entity cursor="rayOrigin: mouse" raycaster="objects: .clickable"></a-entity>
+		<a-entity laser-controls="hand: right" raycaster="objects: .clickable"></a-entity>
+	  </a-entity>
+	  	  
+	  <!--a-entity id="mainVillageModel" gltf-model="exhibits/landscape/scene.glb"></a-entity-->
+	  <a-light type="ambient" intensity="0.7"></a-light>
+	  <a-light type="directional" position="5 10 7" intensity="0.9"></a-light>
+	</a-scene>
+	
+	<!--light-->
+	
+	<a-light id="sun" type="directional" position="5 10 7" intensity="0.9"></a-light>
+	<a-light id="ambient" type="ambient" intensity="0.7"></a-light>
+
+
+	<!--end light-->
+	
+<script>
+	window.addEventListener("DOMContentLoaded", () => {
+	  const overlay = document.getElementById("loadingOverlay");
+	  const enterBtn = document.getElementById("enterBtn");
+	  const progressText = document.getElementById("progressText");
+	
+	  const modelEl = document.querySelector("#mainVillageModel");
+	  const assetsEl = document.querySelector("a-assets");
+	
+	  let modelReady = false;
+	  let userEntered = false;
+	
+	  function updateEnterState() {
+		enterBtn.disabled = !modelReady;
+	  }
+	
+	  function fadeOutOverlay() {
+		overlay.classList.add("hidden");
+		setTimeout(() => overlay.remove(), 600);
+	  }
+	
+	  async function unlockAudio() {
+		try {
+		  const ctx = AFRAME && AFRAME.audioContext;
+		  if (ctx && ctx.state === "suspended") await ctx.resume();
+		} catch (e) {}
+	  }
+	
+	  // Progress from <a-assets> (works best once GLB is in a-assets)
+	  if (assetsEl) {
+		assetsEl.addEventListener("progress", (e) => {
+		  const loaded = e?.detail?.loaded;
+		  const total = e?.detail?.total;
+		  if (loaded && total) {
+			const pct = Math.min(100, Math.round((loaded / total) * 100));
+			progressText.textContent = `Loading… ${pct}%`;
+		  } else {
+			// total may be missing; show "Loading…" without lying
+			progressText.textContent = `Loading…`;
+		  }
+		});
+	  }
+	
+	  if (modelEl) {
+		modelEl.addEventListener("model-loaded", () => {
+		  modelReady = true;
+		  progressText.textContent = "Loaded. Click Enter.";
+		  updateEnterState();
+		  if (userEntered) fadeOutOverlay();
+		});
+	
+		modelEl.addEventListener("model-error", () => {
+		  modelReady = true;
+		  progressText.textContent = "Load error. Click Enter to continue.";
+		  updateEnterState();
+		});
+	  } else {
+		modelReady = true;
+		progressText.textContent = "Ready. Click Enter.";
+		updateEnterState();
+	  }
+	
+	  enterBtn.addEventListener("click", async () => {
+		userEntered = true;
+		await unlockAudio();          // this is the key unlock
+		if (modelReady) fadeOutOverlay();
+	  });
+	});
+	</script>
+
+<!--for the fog and light-->
+
+<script>
+  // Simple time-of-day cycle: dawn -> noon -> dusk -> night -> repeat
+  window.addEventListener("DOMContentLoaded", () => {
+	const scene = document.querySelector("a-scene");
+	const sky = document.querySelector("#sky");
+	const sun = document.querySelector("#sun");
+	const ambient = document.querySelector("#ambient");
+
+	// Define keyframes (minutes are arbitrary; you can speed up/slow down)
+	const keyframes = [
+	  { t: 0.00, sky: "#f6c7a1", fog: "#f6c7a1", sunI: 0.6, ambI: 0.35, sunPos: "3 6 -2" }, // dawn
+	  { t: 0.25, sky: "#9fc9e8", fog: "#9fc9e8", sunI: 0.95, ambI: 0.6, sunPos: "5 10 7" }, // noon
+	  { t: 0.55, sky: "#f2b38b", fog: "#f2b38b", sunI: 0.7, ambI: 0.45, sunPos: "-2 6 3" }, // dusk
+	  { t: 0.80, sky: "#081428", fog: "#081428", sunI: 0.15, ambI: 0.2, sunPos: "0 2 0" }, // night
+	  { t: 1.00, sky: "#f6c7a1", fog: "#f6c7a1", sunI: 0.6, ambI: 0.35, sunPos: "3 6 -2" }  // loop
+	];
+
+	const cycleSeconds = 120; // change this: 120 = 2 minutes per full day cycle
+
+	function lerp(a, b, t) { return a + (b - a) * t; }
+	function hexToRgb(h){
+	  const x = h.replace("#",""); 
+	  return { r: parseInt(x.slice(0,2),16), g: parseInt(x.slice(2,4),16), b: parseInt(x.slice(4,6),16) };
+	}
+	function rgbToHex(r,g,b){
+	  const toHex = (v)=>("0"+Math.round(v).toString(16)).slice(-2);
+	  return "#"+toHex(r)+toHex(g)+toHex(b);
+	}
+	function mixHex(a,b,t){
+	  const A=hexToRgb(a), B=hexToRgb(b);
+	  return rgbToHex(lerp(A.r,B.r,t), lerp(A.g,B.g,t), lerp(A.b,B.b,t));
+	}
+	function mixPos(a,b,t){
+	  const pa=a.split(" ").map(Number), pb=b.split(" ").map(Number);
+	  return `${lerp(pa[0],pb[0],t)} ${lerp(pa[1],pb[1],t)} ${lerp(pa[2],pb[2],t)}`;
+	}
+
+	function sample(p){
+	  // find surrounding keyframes
+	  for(let i=0;i<keyframes.length-1;i++){
+		const k1=keyframes[i], k2=keyframes[i+1];
+		if(p>=k1.t && p<=k2.t){
+		  const tt=(p-k1.t)/(k2.t-k1.t);
+		  return {
+			sky: mixHex(k1.sky,k2.sky,tt),
+			fog: mixHex(k1.fog,k2.fog,tt),
+			sunI: lerp(k1.sunI,k2.sunI,tt),
+			ambI: lerp(k1.ambI,k2.ambI,tt),
+			sunPos: mixPos(k1.sunPos,k2.sunPos,tt)
+		  };
+		}
+	  }
+	  return keyframes[0];
+	}
+
+	function tick(){
+	  const now = performance.now() / 1000;
+	  const p = (now % cycleSeconds) / cycleSeconds;
+	  const s = sample(p);
+
+	  if (sky) sky.setAttribute("color", s.sky);
+	  if (scene) scene.setAttribute("fog", `type: exponential; color: ${s.fog}; density: 0.003`);
+	  if (sun) {
+		sun.setAttribute("intensity", s.sunI);
+		sun.setAttribute("position", s.sunPos);
+	  }
+	  if (ambient) ambient.setAttribute("intensity", s.ambI);
+
+	  requestAnimationFrame(tick);
+	}
+	tick();
+  });
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,71 @@
+{
+  "name": "Gaurd",
+  "parent_scene": null,
+  "project_id": "wacrzmT",
+  "project_url": "https://d90833d2e8.us2.myhubs.net/files/7222f21b-22b3-4e47-959d-e742ced39b23.json",
+  "scene": {
+    "account_id": null,
+    "allow_promotion": false,
+    "allow_remixing": false,
+    "attribution": null,
+    "attributions": {
+      "content": [
+        {
+          "title": "Guard"
+        },
+        {
+          "author": "isaerter",
+          "title": "hut_methodB",
+          "url": "https://sketchfab.com/3d-models/hut-methodb-c4e22f3b49d24f2dbfac6e91a218d877"
+        },
+        {
+          "author": "isaerter",
+          "title": "Pole_simple2",
+          "url": "https://sketchfab.com/3d-models/pole-simple2-8760834ffb444dbaabe1f9d46db34aa5"
+        },
+        {
+          "author": "isaerter",
+          "title": "fenceA",
+          "url": "https://sketchfab.com/3d-models/fencea-cb776b320d42437fbf3072940971f2a4"
+        },
+        {
+          "title": "grass for turpin"
+        },
+        {
+          "title": "dirt"
+        },
+        {
+          "author": "xtremederpie",
+          "title": "Dirt Ground",
+          "url": "https://sketchfab.com/3d-models/dirt-ground-0a0c11f25a6f480dacdc29000c1bd1e7"
+        },
+        {
+          "author": "Somersby",
+          "title": "Grass (More)",
+          "url": "https://sketchfab.com/3d-models/grass-more-c86bba3546094c81ababfdf7db95e19c"
+        },
+        {
+          "author": "MCStudios",
+          "title": "Tree 1",
+          "url": "https://sketchfab.com/3d-models/tree-1-df9269d8076c4e48880254327f0a77c2"
+        },
+        {
+          "author": "zcxsad1",
+          "title": "deer_full body",
+          "url": "https://sketchfab.com/3d-models/deer-full-body-2205809f7e61444db62640b2d02c89f3"
+        }
+      ],
+      "creator": ""
+    },
+    "description": null,
+    "model_url": "https://d90833d2e8.us2.myhubs.net/files/ec5134bf-0d61-4e0e-b92a-71214a414e1e.bin",
+    "name": "Gaurd",
+    "parent_scene_id": null,
+    "project_id": "wacrzmT",
+    "scene_id": "vunHQbN",
+    "screenshot_url": "https://d90833d2e8.us2.myhubs.net/files/b31b5d6d-3ea1-421c-acb0-35b005ea509f.jpg",
+    "type": "scene",
+    "url": "https://d90833d2e8.us2.myhubs.net/scenes/vunHQbN/gaurd"
+  },
+  "thumbnail_url": "https://d90833d2e8.us2.myhubs.net/files/b4b27f20-a033-44f1-9661-8ca90acd94e2.jpg"
+}

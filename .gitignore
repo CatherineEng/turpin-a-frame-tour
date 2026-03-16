@@ -1,0 +1,19 @@
+.DS_Store
+Thumbs.db
+node_modules/
+dist/
+.cache/
+.vscode/
+.idea/
+*.log
+
+# large binary exhibit payloads
+/exhibits/village/ec5134bf-0d61-4e0e-b92a-71214a414e1e.bin
+/exhibits/village/scene.glb
+/exhibits/landscape/scene.glb
+/exhibits/landscape/d883f56e-c321-42cf-b6c7-e2c067d99c54.bin
+/exhibits/**/*.glb
+/exhibits/**/*.bin
+*.bin
+*.gltf
+*.blend
