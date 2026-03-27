@@ -33,6 +33,7 @@ This repository is meant to support:
 ├── narration/                  # narration audio used by the exhibit
 ├── docs/                       # project documentation
 
+```
 ## How To Run the Site
 
 As an A-Frame site, this application needs to be run from a server. Either upload it to a server and access it that way for production, or for local development, create a server in the project folder itself:
