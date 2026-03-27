@@ -32,3 +32,16 @@ This repository is meant to support:
 ├── media/                      # source or supporting media files
 ├── narration/                  # narration audio used by the exhibit
 ├── docs/                       # project documentation
+
+## How To Run the Site
+
+As an A-Frame site, this application needs to be run from a server. Either upload it to a server and access it that way for production, or for local development, create a server in the project folder itself:
+
+In Terminal:
+
+cd path/to/turpin-a-frame-tour
+python3 -m http.server 8080
+
+Then open in your browser:
+
+http://localhost:8080 
