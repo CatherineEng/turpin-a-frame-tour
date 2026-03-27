@@ -40,9 +40,10 @@ As an A-Frame site, this application needs to be run from a server. Either uploa
 
 In Terminal:
 
-cd path/to/turpin-a-frame-tour
-python3 -m http.server 8080
+   cd path/to/turpin-a-frame-tour
+
+   python3 -m http.server 8080
 
 Then open in your browser:
 
-http://localhost:8080 
+   http://localhost:8080 
