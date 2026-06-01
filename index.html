@@ -52,9 +52,11 @@
 	<a-scene xr-mode-ui="enabled: true" fog="type: exponential; color: #9fc9e8; density: 0.003">
 	  <!--a-entity camera position="0 2.6 0" look-controls wasd-controls></a-entity-->
 	 <!--<a-entity id="rig" position="-70 173 -100" rotation="0 90 0">-->
-		 <a-entity id="rig" position="-0 20 0" rotation="0 0 0">
+		 <a-entity id="rig" position="110 -30 -167" rotation="0 180 0">
 	   <a-entity
 		 camera
+		 position="0 1.5 0"
+ 	     rotation="0 0 0"
 		 look-controls
 		 wasd-controls="acceleration: 80; fly: true">
 	   </a-entity>
@@ -62,7 +64,7 @@
 	  
 <!-----------------AUDIO FILES------------------------>
 		<a-assets>
-	      <a-asset-item id="villageGLB" src="exhibits/landscape/turpin_lowres_village_worldOrigin20.glb"></a-asset-item>		
+	      <a-asset-item id="villageGLB" src="exhibits/landscape/turpin_lowres_village_worldOrigin24.glb"></a-asset-item>		
 		  <img id="playArrow" src="media/play.png" />
 		  <img id="stopIcon" src="media/pause.png" />
 		  <img id="wall2graphic" src="media/9517cbbb-1ba0-4417-96a3-c7976cd19c45.jpg" />
@@ -101,8 +103,18 @@
   groundColor: #6b5f4b;
   groundTexture: walkernoise;
 "></a-entity-->
+
+
 	  
 <a-entity id="mainVillageModel" gltf-model="#villageGLB"></a-entity>
+
+
+<!----------------------------START the parent root group of a frame entities --------------------------------->
+<a-entity id="OSU-Exhibit"
+  position="146.4 -33.7 -64.9"
+  rotation="0 16 0"
+  scale="0.9 0.9 0.9">
+  >
 
 <!----------------START STATION 1-------------------->
 
@@ -589,10 +601,12 @@
 
 <!----------------END STATION 12-------------------->	
 
-	  <a-entity id="rig" position="-20 1.5 -120" rotation="0 -90 0">
+</a-entity>
+<!----------------------------END the parent root group of a frame entities --------------------------------->
+
+	  <a-entity id="rig" position="0 -2 0" rotation="0 0 0">
 		<a-entity id="cam"
 		  camera="active: true"
-		  <!--position="0 1.5 0"-->
 		  look-controls
 		  wasd-controls>
 		</a-entity>
