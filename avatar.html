@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+  <head>
+	<meta charset="utf-8" />
+	<title>Turpin – VR Avatar </title>
+	<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	<script src="http://localhost:8080/easyrtc/easyrtc.js"></script>
+	<script src="https://unpkg.com/networked-aframe/dist/networked-aframe.min.js"></script>	
+		<style>
+	  #loadingOverlay{
+		position: fixed; inset: 0;
+		display: flex; flex-direction: column; gap: 16px;
+		align-items: center; justify-content: center;
+		background: #000; color: #fff;
+		z-index: 9999;
+		font: 18px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+	
+		opacity: 1;
+		transition: opacity 500ms ease;
+	  }
+	  #loadingOverlay.hidden {
+		opacity: 0;
+		pointer-events: none;
+	  }
+	  #enterBtn{
+		padding: 12px 18px;
+		border-radius: 10px;
+		border: 1px solid rgba(255,255,255,0.35);
+		background: rgba(255,255,255,0.1);
+		color: #fff;
+		cursor: pointer;
+		font-size: 16px;
+	  }
+	  #progressText{ opacity: 0.85; }
+	</style>
+  </head>
+  <body style="margin:0; overflow:hidden;background-color:black;">
+	
+<template id="avatar-template">
+	<a-entity>
+	  <!-- head -->
+	  <a-sphere 
+		position="0 1.6 0" 
+		radius="0.25" 
+		color="#4f46e5">
+	  </a-sphere>
+  
+	  <!-- body -->
+	  <a-cylinder 
+		position="0 1.05 0" 
+		radius="0.18" 
+		height="0.7" 
+		color="#f59e0b">
+	  </a-cylinder>
+  
+	  <!-- optional name label -->
+	  <a-text 
+		value="Visitor" 
+		position="0 2.05 0" 
+		align="center" 
+		scale="1 1 1">
+	  </a-text>
+	</a-entity>
+  </template>
+	
+
+<a-scene networked-scene="
+	serverURL: http://localhost:8080/;
+	room: class-world;
+	adapter: easyrtc;
+	debug: true;
+  ">
+  
+	<a-plane rotation="-90 0 0" width="40" height="40" color="#7c8f6b"></a-plane>
+  
+	<a-entity 
+	  id="player"
+	  networked="template:#avatar-template; attachTemplateToLocal:false;"
+	  position="0 0 3">
+  
+	  <a-entity 
+		camera 
+		look-controls 
+		wasd-controls 
+		position="0 1.6 0">
+	  </a-entity>
+  
+	</a-entity>
+  
+  </a-scene>
+
+
+
+	
+
+
+
+
+  </body>
+</html>

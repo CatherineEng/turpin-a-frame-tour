@@ -62,7 +62,7 @@
 	  
 <!-----------------AUDIO FILES------------------------>
 		<a-assets>
-	      <a-asset-item id="villageGLB" src="exhibits/landscape/turpin_lowres_village_worldOrigin20.glb"></a-asset-item>		
+	      <a-asset-item id="villageGLB" src="exhibits/landscape/turpin_lowres_village_worldOrigin21_reorientedIthink.glb.glb"></a-asset-item>		
 		  <img id="playArrow" src="media/play.png" />
 		  <img id="stopIcon" src="media/pause.png" />
 		  <img id="wall2graphic" src="media/9517cbbb-1ba0-4417-96a3-c7976cd19c45.jpg" />
@@ -101,8 +101,16 @@
   groundColor: #6b5f4b;
   groundTexture: walkernoise;
 "></a-entity-->
+
+
 	  
 <a-entity id="mainVillageModel" gltf-model="#villageGLB"></a-entity>
+
+
+<!----------------------------START the parent root group of a frame entities --------------------------------->
+<a-entity id="OSU-Exhibit"
+  position="-70 173 -100"
+  rotation="0 180 0">
 
 <!----------------START STATION 1-------------------->
 
@@ -588,6 +596,9 @@
 </a-entity>
 
 <!----------------END STATION 12-------------------->	
+
+</a-entity>
+<!----------------------------END the parent root group of a frame entities --------------------------------->
 
 	  <a-entity id="rig" position="-20 1.5 -120" rotation="0 -90 0">
 		<a-entity id="cam"

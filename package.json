@@ -1,0 +1,30 @@
+{
+  "name": "tour",
+  "version": "1.0.0",
+  "description": "This repository contains the A-Frame implementation of the Turpin exhibit environment. It is intended as a lightweight, web-based presentation of the Turpin site that can be viewed in-browser, iterated on quickly, and reviewed by collaborators.",
+  "main": "audio-toggle-button.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "scripts": {
+    "start": "node server/easyrtc-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CatherineEng/turpin-a-frame-tour.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/CatherineEng/turpin-a-frame-tour/issues"
+  },
+  "homepage": "https://github.com/CatherineEng/turpin-a-frame-tour#readme",
+  "dependencies": {
+    "networked-aframe": "^0.14.3"
+  }
+}
